@@ -7,18 +7,15 @@ struct Cli {
     pattern: String,
     path: std::path::PathBuf,
 }
-fn main() -> Result<()>{
+fn main() -> Result<(), Box<dyn std::error::Error>>{
     let args = Cli::parse();
     println!("pattern: {:?}, path: {:?}", args.pattern, args.path);
 
     let content = std::fs::read_to_string(&args.path)
     .with_context(|| format!("could not read file: `{:?}`", &args.path))?;
 
-    for line in content.lines() {
-        if line.contains(&args.pattern) {
-            println!("{}", line);
-        }
-    }
+    
+    cli_app::find_matches(&content, &args.pattern, &mut std::io::stdout())?;
 
     Ok(())
 }
