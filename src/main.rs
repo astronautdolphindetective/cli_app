@@ -1,5 +1,5 @@
-use std::fmt::format;
 use anyhow::{Context, Result};
+use log::{info, warn};
 use clap::Parser;
 
 #[derive(Parser)]
